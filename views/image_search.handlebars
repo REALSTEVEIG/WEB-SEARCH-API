@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Steves Youtube Downloader</title>
+    <title>Image Search</title>
     <link rel="icon" type="image/x-icon" href="public/images/you.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,12 +8,12 @@
     <meta name="author" content="colorlib.com">
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
   </head>
-  <body>
+  <body  style="background-color: rgba(61, 59, 66, 0.842) ;" >
       {{error}}
       <center>
           <div>
             {{#each imageData}}
-            <img src="{{url}}" alt="no image to display" width = "300" height = "300">
+            <img src="{{url}}" alt="Image cannot be displayed" width = "300" height = "300" style="font-family :monospace">
             {{/each}}
           </div>
       </center>
