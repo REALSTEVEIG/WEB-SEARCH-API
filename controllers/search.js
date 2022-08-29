@@ -1,4 +1,5 @@
 const {StatusCodes} = require('http-status-codes')
+const apiKey = process.env.API_KEY
 
 exports.home = (req, res) => {
     res.render('home')
@@ -14,7 +15,7 @@ exports.imageSearch = async (req, res) => {
         url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/ImageSearchAPI',
         params: {q, pageNumber: '1', pageSize: '50', autoCorrect: 'true', safeSearch : false},
         headers: {
-            'X-RapidAPI-Key': 'd2e4650daemsh651ed5e57d732d6p1643c0jsn037cdcce223e',
+            'X-RapidAPI-Key': apiKey,
             'X-RapidAPI-Host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
         }
         };
@@ -33,16 +34,53 @@ exports.imageSearch = async (req, res) => {
 
 exports.newsSearch = async (req, res) => {
     try {
-        console.log(`Hit news search`)
+      const {q} = req.query
+      const axios = require("axios")
+      const options = {
+        method : 'GET',
+        url :  'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
+        params : {
+            q,
+            pageNumber : '1',
+            pageSize : '10',
+            autoCorrect : 'true',
+            fromPublishedDate : 'null',
+            toPublishedDate : 'null'
+        },
+        headers : {
+            'X-RapidAPI-Key' : apiKey,
+            'X-RapidAPI-Host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
+        }
+      };
+      const response = await axios.request(options)
+      console.log(response.data)
+      return res.status(StatusCodes.OK).json({response : response.data})
     } catch (error) {
         console.log(error)
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({error})
     }
 }
 
 exports.webSearch = async (req, res) => {
     try {
-       console.log('Web search hit')
+        const {q} = req.query
+        const axios = require("axios");
+
+        const options = {
+          method: 'GET',
+          url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/WebSearchAPI',
+          params: {q, pageNumber: '1', pageSize: '10', autoCorrect: 'true'},
+          headers: {
+            'X-RapidAPI-Key': apiKey,
+            'X-RapidAPI-Host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
+          }
+        };
+        
+            const response = await axios.request(options)
+            console.log(response.data);
+            return res.status(StatusCodes.OK).json({response : response.data})
     } catch (error) {
-        console.log(error)
+            console.log(error);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({error})
     }
 }
